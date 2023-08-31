@@ -6,7 +6,7 @@ import {
     type DefaultMessageConstructor,
 } from "@odg/message";
 
-import { type TlsOptionsConstructorInterface, type TlsOptionsInterface } from "src/interfaces/TlsOptionsInterface";
+import { type TlsOptionsConstructorInterface, type TlsOptionsInterface } from "../interfaces/TlsOptionsInterface";
 
 /**
  * Tls Message class
