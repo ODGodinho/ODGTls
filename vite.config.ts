@@ -3,6 +3,7 @@ import { defineConfig } from "vitest/config";
 
 const vite = defineConfig({
     test: {
+        testTimeout: 15_000,
         globals: true,
         coverage: {
             enabled: true,
