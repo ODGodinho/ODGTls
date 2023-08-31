@@ -1,40 +1,39 @@
-import { AxiosMessage } from "@odg/axios";
 import { type MessageInterface } from "@odg/message";
 
 import { TlsMessage } from "src";
 
 describe("Tls Message", () => {
     let messageTls: MessageInterface;
-    let messageAxios: MessageInterface;
-    const akamaiHash = "data.akamai_hash";
+
+    const tlsHeader = "status";
+    const requestUrl = "https://1.1.1.1/";
 
     beforeAll(() => {
         messageTls = new TlsMessage({
             tls: {
-                url: "http://localhost:8082",
+                url: requestUrl,
             },
-            baseURL: "https://tls.browserleaks.com/json",
-        });
-        messageAxios = new AxiosMessage({
-            baseURL: "https://tls.browserleaks.com/json",
+            baseURL: requestUrl,
         });
     });
 
-    test.concurrent("Teste request tls has akamai token", async () => {
+    test.concurrent("Teste request with poptls-url", async () => {
         const tlsResponse = messageTls.request({});
 
         await Promise.all([
-            expect(tlsResponse).resolves.toHaveProperty(akamaiHash),
-            expect(tlsResponse).resolves.toHaveProperty(akamaiHash, expect.stringMatching(/\w{32}/)),
+            expect(tlsResponse).resolves.toHaveProperty(tlsHeader),
+            expect(tlsResponse).resolves.toHaveProperty(tlsHeader, 200),
         ]);
     });
 
-    test.concurrent("Teste request without TLS has akamai token", async () => {
-        const tlsResponse = messageAxios.request({});
+    test.concurrent("Teste request with timeout", async () => {
+        const tlsResponse = messageTls.request({
+            timeout: 10_000,
+        });
 
         await Promise.all([
-            expect(tlsResponse).resolves.toHaveProperty(akamaiHash),
-            expect(tlsResponse).resolves.toHaveProperty(akamaiHash, expect.stringMatching("")),
+            expect(tlsResponse).resolves.toHaveProperty(tlsHeader),
+            expect(tlsResponse).resolves.toHaveProperty(tlsHeader, 200),
         ]);
     });
 });

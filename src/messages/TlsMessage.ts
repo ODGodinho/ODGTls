@@ -26,19 +26,25 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
     public async request<RequestD = unknown, ResponseD = unknown>(
         options: Partial<TlsOptionsInterface> & RequestInterface<RequestD>,
     ): Promise<ResponseInterface<RequestD, ResponseD>> {
-        const newOptions = {
+        const timeout = this.getTimeInSeconds<RequestD>(options);
+        const newOptions: RequestInterface<RequestD> = {
             ...options,
             url: this.config.tls.url,
             headers: {
                 "poptls-url": this.getUrl<RequestD>(options),
-                "poptls-timeout": String(this.getTimeInSeconds<RequestD>(options)),
                 "poptls-proxy": this.getProxyUrl([
                     options.proxy,
                     this.config.proxy,
                 ]),
                 "poptls-allowredirect": String(this.getAllowRedirect<RequestD>(options)),
-                ...options.headers,
             },
+        };
+
+        if (timeout) newOptions.headers!["poptls-timeout"] = String(timeout);
+
+        newOptions.headers = {
+            ...newOptions.headers,
+            ...options.headers,
         };
 
         return super.request<RequestD, ResponseD>(newOptions);
