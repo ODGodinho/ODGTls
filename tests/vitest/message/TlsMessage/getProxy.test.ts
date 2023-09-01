@@ -1,18 +1,8 @@
 import { TlsMessage } from "src";
 
 describe("Tls Message", () => {
-    let messageTls: TlsMessage<unknown, unknown>;
-
-    beforeAll(() => {
-        messageTls = new TlsMessage({
-            tls: {
-                url: "http://localhost:8082",
-            },
-        });
-    });
-
     test.concurrent("Proxy without login", async () => {
-        expect(messageTls["getProxyUrl"]([ {
+        expect(TlsMessage["getProxyUrl"]([ {
             host: "localhost",
             protocol: "http",
             port: 8082,
@@ -20,7 +10,7 @@ describe("Tls Message", () => {
     });
 
     test.concurrent("Proxy with login", async () => {
-        expect(messageTls["getProxyUrl"]([ {
+        expect(TlsMessage["getProxyUrl"]([ {
             host: "localhost",
             protocol: "http",
             port: 8083,
@@ -32,7 +22,7 @@ describe("Tls Message", () => {
     });
 
     test.concurrent("Proxy empty port", async () => {
-        expect(messageTls["getProxyUrl"]([ {
+        expect(TlsMessage["getProxyUrl"]([ {
             host: "localhost",
             protocol: "http",
             port: Number.NaN,

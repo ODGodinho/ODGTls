@@ -35,7 +35,7 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
             url: this.config.tls.url,
             headers: {
                 "poptls-url": this.getUrl<RequestD>(options),
-                "poptls-proxy": this.getProxyUrl([
+                "poptls-proxy": TlsMessage.getProxyUrl([
                     options.proxy,
                     this.proxy,
                 ]),
@@ -50,6 +50,8 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
             ...options.headers,
         };
 
+        delete newOptions.proxy;
+
         return super.request<RequestD, ResponseD>(newOptions);
     }
 
@@ -60,9 +62,23 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
             ...config,
         };
 
-        delete config.proxy;
+        delete newConfig.proxy;
+        delete newConfig.baseURL;
+        delete newConfig.url;
 
         return newConfig;
+    }
+
+    private static getProxyUrl(proxies: Array<ProxyConfigInterface | false | undefined>): string | undefined {
+        const proxy = proxies.find((myProxy) => myProxy && myProxy.host);
+        if (!proxy) return;
+
+        const proxyPort = proxy.port ? `:${proxy.port}` : "";
+        if (proxy.auth?.username) {
+            return `${proxy.protocol}://${proxy.auth.username}:${proxy.auth.password}@${proxy.host}${proxyPort}`;
+        }
+
+        return `${proxy.protocol}://${proxy.host}${proxyPort}`;
     }
 
     private getAllowRedirect<RequestD = unknown>(
@@ -71,7 +87,9 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
         return options.tls?.allowRedirect ?? this.config.tls.allowRedirect ?? true;
     }
 
-    private getUrl<RequestD = unknown>(options: Partial<TlsOptionsInterface> & RequestInterface<RequestD>): string {
+    private getUrl<RequestD = unknown>(
+        options: Partial<TlsOptionsInterface> & RequestInterface<RequestD>,
+    ): string {
         return `${options.baseURL ?? this.config.baseURL ?? ""}${options.url ?? this.config.url ?? ""}`;
     }
 
@@ -88,18 +106,6 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
         }
 
         return timeout;
-    }
-
-    private getProxyUrl(proxies: Array<ProxyConfigInterface | false | undefined>): string | undefined {
-        const proxy = proxies.find((myProxy) => myProxy && myProxy.host);
-        if (!proxy) return;
-
-        const proxyPort = proxy.port ? `:${proxy.port}` : "";
-        if (proxy.auth?.username) {
-            return `${proxy.protocol}://${proxy.auth.username}:${proxy.auth.password}@${proxy.host}${proxyPort}`;
-        }
-
-        return `${proxy.protocol}://${proxy.host}${proxyPort}`;
     }
 
 }
