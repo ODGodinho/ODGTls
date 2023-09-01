@@ -18,8 +18,11 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
 
     protected config: DefaultMessageConstructor<RequestData> & TlsOptionsConstructorInterface;
 
+    protected proxy?: ProxyConfigInterface | false;
+
     public constructor(config: DefaultMessageConstructor<RequestData> & TlsOptionsConstructorInterface) {
-        super(config);
+        super(TlsMessage.getConfigs(config));
+        this.proxy = config.proxy;
         this.config = config;
     }
 
@@ -34,7 +37,7 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
                 "poptls-url": this.getUrl<RequestD>(options),
                 "poptls-proxy": this.getProxyUrl([
                     options.proxy,
-                    this.config.proxy,
+                    this.proxy,
                 ]),
                 "poptls-allowredirect": String(this.getAllowRedirect<RequestD>(options)),
             },
@@ -48,6 +51,18 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
         };
 
         return super.request<RequestD, ResponseD>(newOptions);
+    }
+
+    private static getConfigs<T extends DefaultMessageConstructor<unknown> & TlsOptionsConstructorInterface>(
+        config: T,
+    ): T {
+        const newConfig = {
+            ...config,
+        };
+
+        delete config.proxy;
+
+        return newConfig;
     }
 
     private getAllowRedirect<RequestD = unknown>(
@@ -66,8 +81,8 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
         const timeout = options.timeout ?? this.config.timeout;
 
         if (timeout) {
-            const miliSeconds1000ToSeconds = 1000;
-            const newTimeout = Math.trunc(timeout / miliSeconds1000ToSeconds);
+            const miliSecondsToSeconds = 1000;
+            const newTimeout = Math.trunc(timeout / miliSecondsToSeconds);
 
             return newTimeout > 0 ? newTimeout : 0;
         }
