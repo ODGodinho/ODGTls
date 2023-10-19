@@ -531,9 +531,9 @@
   integrity sha512-kWLKHk8Md4WBXNJhjyvexXyZzEn42HXT13W2kNQM5I0/F8dYMLsrHhFGj2GyLwhGlXOu52pvSTYOYtAF5bX7gw==
 
 "@odg/message@*":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@odg/message/-/message-1.2.1.tgz#8401d5749cc304d29f10fa8d8b369c998570b5b4"
-  integrity sha512-0sgCfxnP3LZyHXrSYWoF9zHZRRsS1ip5UzEKWTXtlEPgqng4Qiqav9h2ZOK/nEKY6mKfW0QpuJr7My0wI43awQ==
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@odg/message/-/message-1.2.2.tgz#a0261ae9064e21647514dd77ce8455056bfd6b1d"
+  integrity sha512-qn4woZr0uklVSdr1Zbd+7aV70I3BhKOi/Enz/7YUmNtf5qfwmepKK41ujlPDlpw1YN4lj/kDpijmvh2yC2DOfQ==
   dependencies:
     "@odg/exception" "*"
 
