@@ -470,9 +470,9 @@
     fastq "^1.6.0"
 
 "@odg/axios@*":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@odg/axios/-/axios-1.5.0.tgz#36ca007ba2a9ad4103198b6e7599ef700b9113f6"
-  integrity sha512-dKGTlPH/TpUvWBvMXDwi3VgECwfGkOm/jO7+69gQwKIsxe2x1BU5CV4Zx7d9lw3iv3hiFwXDCPzwQEZyycDzKw==
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@odg/axios/-/axios-1.5.1.tgz#06258315eafafe9617db44ea39e21d8876863e44"
+  integrity sha512-FXQdVvEw4WbdNQF4+7/t++Y8qvM7QTY078k6ZSBoFy59U1oKDkmkyJG1SP+crct/PROHCn/VaKWTI06f9i0GKw==
   dependencies:
     "@odg/exception" "*"
     "@odg/message" "*"
