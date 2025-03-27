@@ -1,2 +1,3 @@
 export * from "./messages/TlsMessage";
-export * from "./interfaces/TlsOptionsInterface";
+
+export type * from "./interfaces/TlsOptionsInterface";

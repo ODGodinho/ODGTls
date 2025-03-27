@@ -1,12 +1,19 @@
 import { AxiosMessage } from "@odg/axios";
 import {
+    type InterceptorsInterface,
     type ProxyConfigInterface,
-    type RequestInterface,
     type ResponseInterface,
-    type DefaultMessageConstructor,
 } from "@odg/message";
+import {
+    type AxiosInterceptorManager,
+    type AxiosRequestConfig,
+} from "axios";
 
-import { type TlsOptionsConstructorInterface, type TlsOptionsInterface } from "../interfaces/TlsOptionsInterface";
+import { TlsAxiosInterceptorRequest } from "../interceptors/TlsAxiosInterceptorRequest";
+import { TlsAxiosInterceptorResponse } from "../interceptors/TlsAxiosInterceptorResponse";
+import { type TlsOptionsConstructorInterface, type TlsRequestInterface } from "../interfaces/TlsOptionsInterface";
+import { TlsAxiosRequestParser } from "../parser/TlsAxiosRequestParser";
+import { TlsAxiosResponseParser } from "../parser/TlsAxiosResponseParser";
 
 /**
  * Tls Message class
@@ -16,96 +23,56 @@ import { type TlsOptionsConstructorInterface, type TlsOptionsInterface } from ".
  */
 export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestData, ResponseData> {
 
-    protected config: DefaultMessageConstructor<RequestData> & TlsOptionsConstructorInterface;
+    public readonly interceptors: InterceptorsInterface<RequestData, ResponseData>;
+
+    protected readonly requestParser = TlsAxiosRequestParser;
+
+    protected readonly responseParser = TlsAxiosResponseParser;
+
+    protected config: TlsOptionsConstructorInterface<RequestData>;
 
     protected proxy?: ProxyConfigInterface | false;
 
-    public constructor(config: DefaultMessageConstructor<RequestData> & TlsOptionsConstructorInterface) {
-        super(TlsMessage.getConfigs(config));
+    public constructor(config: TlsOptionsConstructorInterface<RequestData>) {
+        super({});
         this.proxy = config.proxy;
         this.config = config;
+
+        this.interceptors = Object.freeze({
+            request: new TlsAxiosInterceptorRequest<RequestData>(
+                this.client.interceptors.request as AxiosInterceptorManager<AxiosRequestConfig<RequestData>>,
+            ),
+            response: new TlsAxiosInterceptorResponse<RequestData, ResponseData>(
+                this.client.interceptors.response,
+            ),
+        });
     }
 
-    public async request<RequestD = unknown, ResponseD = unknown>(
-        options: Partial<TlsOptionsInterface> & RequestInterface<RequestD>,
+    public setDefaultOptions(config: TlsOptionsConstructorInterface<RequestData>): this {
+        this.config = config;
+
+        return this;
+    }
+
+    public getDefaultOptions(): Partial<TlsOptionsConstructorInterface<RequestData>> {
+        return {
+            ...this.config,
+        };
+    }
+
+    public async request<RequestD = RequestData, ResponseD = ResponseData>(
+        options: TlsRequestInterface<RequestD>,
     ): Promise<ResponseInterface<RequestD, ResponseD>> {
-        const timeout = this.getTimeInSeconds<RequestD>(options);
-        const newOptions: RequestInterface<RequestD> = {
+        return super.request<RequestD, ResponseD>(await this.getNewOptions(options));
+    }
+
+    private async getNewOptions<RequestD = RequestData>(
+        options: TlsRequestInterface<RequestD>,
+    ): Promise<TlsRequestInterface<RequestD>> {
+        return {
+            ...this.config as TlsRequestInterface<RequestD>,
             ...options,
-            url: this.config.tls.url,
-            headers: {
-                "poptls-url": this.getUrl<RequestD>(options),
-                "poptls-proxy": TlsMessage.getProxyUrl([
-                    options.proxy,
-                    this.proxy,
-                ]),
-                "poptls-allowredirect": String(this.getAllowRedirect<RequestD>(options)),
-            },
         };
-
-        if (timeout) newOptions.headers!["poptls-timeout"] = String(timeout);
-
-        newOptions.headers = {
-            ...newOptions.headers,
-            ...options.headers,
-        };
-
-        delete newOptions.proxy;
-
-        return super.request<RequestD, ResponseD>(newOptions);
-    }
-
-    private static getConfigs<T extends DefaultMessageConstructor<unknown> & TlsOptionsConstructorInterface>(
-        config: T,
-    ): T {
-        const newConfig = {
-            ...config,
-        };
-
-        delete newConfig.proxy;
-        delete newConfig.baseURL;
-        delete newConfig.url;
-
-        return newConfig;
-    }
-
-    private static getProxyUrl(proxies: Array<ProxyConfigInterface | false | undefined>): string | undefined {
-        const proxy = proxies.find((myProxy) => myProxy && myProxy.host);
-        if (!proxy) return;
-
-        const proxyPort = proxy.port ? `:${proxy.port}` : "";
-        if (proxy.auth?.username) {
-            return `${proxy.protocol}://${proxy.auth.username}:${proxy.auth.password}@${proxy.host}${proxyPort}`;
-        }
-
-        return `${proxy.protocol}://${proxy.host}${proxyPort}`;
-    }
-
-    private getAllowRedirect<RequestD = unknown>(
-        options: Partial<TlsOptionsInterface> & RequestInterface<RequestD>,
-    ): boolean {
-        return options.tls?.allowRedirect ?? this.config.tls.allowRedirect ?? true;
-    }
-
-    private getUrl<RequestD = unknown>(
-        options: Partial<TlsOptionsInterface> & RequestInterface<RequestD>,
-    ): string {
-        return `${options.baseURL ?? this.config.baseURL ?? ""}${options.url ?? this.config.url ?? ""}`;
-    }
-
-    private getTimeInSeconds<RequestD = unknown>(
-        options: Partial<TlsOptionsInterface> & RequestInterface<RequestD>,
-    ): number | undefined {
-        const timeout = options.timeout ?? this.config.timeout;
-
-        if (timeout) {
-            const miliSecondsToSeconds = 1000;
-            const newTimeout = Math.trunc(timeout / miliSecondsToSeconds);
-
-            return newTimeout > 0 ? newTimeout : 0;
-        }
-
-        return timeout;
     }
 
 }

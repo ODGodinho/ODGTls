@@ -1,39 +1,33 @@
-import { TlsMessage } from "src";
+import { TlsAxiosRequestParser } from "src/parser/TlsAxiosRequestParser";
 
 describe("Tls Message", () => {
-    let messageTls: TlsMessage<unknown, unknown>;
-    beforeAll(() => {
-        messageTls = new TlsMessage({
-            tls: {
-                url: "http://localhost:8082",
-            },
-            baseURL: "https://tls.browserleaks.com/json",
-        });
-    });
+    const baseOptions = {
+        tls: {
+            url: "http://localhost:8082",
+        },
+        baseURL: "https://tls.browserleaks.com/json",
+    };
 
     test.concurrent("Test with Base URL", async () => {
-        expect(messageTls["getUrl"]({})).toBe("https://tls.browserleaks.com/json");
+        expect(TlsAxiosRequestParser["getUrl"](baseOptions)).toBe("https://tls.browserleaks.com/json");
     });
 
     test.concurrent("Proxy with BaseUrl Clear", async () => {
-        expect(messageTls["getUrl"]({
+        expect(TlsAxiosRequestParser["getUrl"]({
+            ...baseOptions,
             baseURL: "",
         })).toBe("");
     });
 
     test.concurrent("Proxy with Url", async () => {
-        expect(messageTls["getUrl"]({
+        expect(TlsAxiosRequestParser["getUrl"]({
+            ...baseOptions,
             url: "/test",
         })).toBe("https://tls.browserleaks.com/json/test");
     });
 
     test.concurrent("Proxy with Url no baseUrl", async () => {
-        const messageTls2 = new TlsMessage({
-            tls: {
-                url: "http://localhost:8082",
-            },
-        });
-        expect(messageTls2["getUrl"]({
+        expect(TlsAxiosRequestParser["getUrl"]({
             url: "/test",
         })).toBe("/test");
     });
