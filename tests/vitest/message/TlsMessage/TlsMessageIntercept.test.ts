@@ -1,13 +1,13 @@
 import { TlsMessage } from "src";
 
 describe("Tls Message", () => {
-    const requestUrl = "http://localhost:8082/";
+    const tlsUrl = "https://1.1.1.1/";
     const cloudFlareIp = "https://1.1.1.1";
 
     test.concurrent("Teste Request Intercept", async () => {
         const requester = new TlsMessage({
             tls: {
-                url: requestUrl,
+                url: tlsUrl,
             },
             baseURL: cloudFlareIp,
         });

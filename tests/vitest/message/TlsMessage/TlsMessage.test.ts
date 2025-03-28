@@ -2,13 +2,13 @@ import { TlsMessage } from "src";
 
 describe("Tls Message", () => {
     const tlsHeader = "status";
-    const requestUrl = "http://localhost:8082/";
+    const tlsUrl = "https://1.1.1.2/";
     const cloudFlareIp = "https://1.1.1.1";
 
     test.concurrent("Teste request without url and BaseURL Instance", async () => {
         const messageTls = new TlsMessage({
             tls: {
-                url: requestUrl,
+                url: tlsUrl,
             },
             baseURL: cloudFlareIp,
         });
@@ -23,7 +23,7 @@ describe("Tls Message", () => {
     test.concurrent("Teste request with url and BaseUrl Instance", async () => {
         const messageTls = new TlsMessage({
             tls: {
-                url: requestUrl,
+                url: tlsUrl,
             },
             baseURL: cloudFlareIp,
         });
@@ -40,7 +40,7 @@ describe("Tls Message", () => {
     test.concurrent("Teste request with url and BaseUrl request", async () => {
         const messageTls = new TlsMessage({
             tls: {
-                url: requestUrl,
+                url: tlsUrl,
             },
         });
         const tlsResponse = messageTls.request({
@@ -57,7 +57,7 @@ describe("Tls Message", () => {
     test.concurrent("Teste request with timeout", async () => {
         const messageTls = new TlsMessage({
             tls: {
-                url: requestUrl,
+                url: tlsUrl,
             },
             baseURL: cloudFlareIp,
         });
