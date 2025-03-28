@@ -69,10 +69,12 @@
     },
     "dependencies": {
         "@odg/axios": "*",
+        "@odg/exception": "*",
         "@odg/message": "*"
     },
     "peerDependencies": {
         "@odg/axios": "*",
+        "@odg/exception": "*",
         "@odg/message": "*",
         "axios": "*"
     }

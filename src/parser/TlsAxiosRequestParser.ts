@@ -23,11 +23,11 @@ export class TlsAxiosRequestParser extends AxiosRequestParser {
             proxy: undefined,
             baseURL: undefined,
             headers: {
+                ...options.headers,
                 "poptls-url": this.getUrl<RequestD>(options),
                 "poptls-proxy": this.getProxyUrl(options.proxy),
                 "poptls-allowredirect": String(this.getAllowRedirect(options)),
-                "poptls-timeout": String(this.getTimeInSeconds(options)),
-                ...options.headers,
+                "poptls-timeout": this.getTimeInSeconds(options),
             },
             tlsOptions: {
                 url: options.url,
