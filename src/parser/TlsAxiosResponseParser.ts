@@ -1,7 +1,7 @@
 import { AxiosResponseParser } from "@odg/axios";
 import { type AxiosResponse } from "axios";
 
-import { TlsMessageResponse } from "src/messages/TlsMessageResponse";
+import { TlsMessageResponse } from "../messages/TlsMessageResponse";
 
 import { TlsAxiosRequestParser } from "./TlsAxiosRequestParser";
 
