@@ -2,7 +2,6 @@ import { AxiosMessage } from "@odg/axios";
 import {
     type InterceptorsInterface,
     type ProxyConfigInterface,
-    type ResponseInterface,
 } from "@odg/message";
 import {
     type AxiosInterceptorManager,
@@ -11,9 +10,15 @@ import {
 
 import { TlsAxiosInterceptorRequest } from "../interceptors/TlsAxiosInterceptorRequest";
 import { TlsAxiosInterceptorResponse } from "../interceptors/TlsAxiosInterceptorResponse";
-import { type TlsOptionsConstructorInterface, type TlsRequestInterface } from "../interfaces/TlsOptionsInterface";
+import {
+    type TlsOptionsConstructorInterface,
+    type TlsRequestInterface,
+} from "../interfaces/TlsOptionsInterface";
 import { TlsAxiosRequestParser } from "../parser/TlsAxiosRequestParser";
 import { TlsAxiosResponseParser } from "../parser/TlsAxiosResponseParser";
+
+import { type TlsMessageException } from "./TlsMessageException";
+import { type TlsMessageResponse } from "./TlsMessageResponse";
 
 /**
  * Tls Message class
@@ -48,13 +53,31 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
         });
     }
 
+    public static isAxiosMessageToTlsError<RequestData = unknown, ResponseData = unknown>(
+        message: unknown,
+    ): message is TlsMessageException<RequestData, ResponseData> {
+        return super.isMessageError(message)
+            && !!message.request
+            && "$tlsOptions" in message.request
+            && !!message.request.$tlsOptions;
+    }
+
+    public static isMessageError<RequestData = unknown, ResponseData = unknown>(
+        message: unknown,
+    ): message is TlsMessageException<RequestData, ResponseData> {
+        return super.isMessageError(message)
+            && !!message.request
+            && "tls" in message.request
+            && !!message.request.tls;
+    }
+
     public setDefaultOptions(config: TlsOptionsConstructorInterface<RequestData>): this {
         this.config = config;
 
         return this;
     }
 
-    public getDefaultOptions(): Partial<TlsOptionsConstructorInterface<RequestData>> {
+    public getDefaultOptions(): TlsOptionsConstructorInterface<RequestData> {
         return {
             ...this.config,
         };
@@ -62,7 +85,7 @@ export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestD
 
     public async request<RequestD = RequestData, ResponseD = ResponseData>(
         options: TlsRequestInterface<RequestD>,
-    ): Promise<ResponseInterface<RequestD, ResponseD>> {
+    ): Promise<TlsMessageResponse<RequestD, ResponseD>> {
         return super.request<RequestD, ResponseD>(await this.getNewOptions(options));
     }
 

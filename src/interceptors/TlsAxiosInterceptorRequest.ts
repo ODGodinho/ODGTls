@@ -3,8 +3,7 @@ import {
     type InterceptorManager,
 } from "@odg/message";
 
-import { type TlsRequestInterface } from "src/interfaces/TlsOptionsInterface";
-
+import { type TlsRequestInterface } from "../interfaces/TlsOptionsInterface";
 import { TlsAxiosRequestParser } from "../parser/TlsAxiosRequestParser";
 
 export class TlsAxiosInterceptorRequest<

@@ -29,13 +29,13 @@ export class TlsAxiosRequestParser extends AxiosRequestParser {
                 "poptls-allowredirect": String(this.getAllowRedirect(options)),
                 "poptls-timeout": this.getTimeInSeconds(options),
             },
-            tlsOptions: {
+            $tlsOptions: {
                 url: options.url,
                 baseUrl: options.baseURL,
                 proxy: options.proxy,
                 tls: options.tls,
             },
-        } as AxiosRequestConfig<RequestD>).filter(([ , value ]) => value !== undefined));
+        } as TlsAxiosRequestConfigExtra<RequestD>).filter(([ , value ]) => value !== undefined));
     }
 
     /**
@@ -51,10 +51,10 @@ export class TlsAxiosRequestParser extends AxiosRequestParser {
         return Object.fromEntries(
             Object.entries({
                 ...super.parseLibraryToMessage(config),
-                url: config.tlsOptions?.url,
-                baseURL: config.tlsOptions?.baseUrl,
-                proxy: config.tlsOptions?.proxy,
-                tls: config.tlsOptions?.tls,
+                url: config.$tlsOptions?.url,
+                baseURL: config.$tlsOptions?.baseUrl,
+                proxy: config.$tlsOptions?.proxy,
+                tls: config.$tlsOptions?.tls,
                 headers: {
                     ...config.headers,
                     "poptls-url": undefined,

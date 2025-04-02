@@ -1,7 +1,7 @@
 import { AxiosInterceptorResponse } from "@odg/axios";
 import {
+    type MessageResponse,
     type InterceptorManager,
-    type ResponseInterface,
 } from "@odg/message";
 
 import { TlsAxiosResponseParser } from "../parser/TlsAxiosResponseParser";
@@ -12,7 +12,7 @@ export class TlsAxiosInterceptorResponse<
 > extends AxiosInterceptorResponse<
         RequestData,
         ResponseData
-    > implements InterceptorManager<ResponseInterface<RequestData, ResponseData>> {
+    > implements InterceptorManager<MessageResponse<ResponseData>> {
 
     protected readonly parser = TlsAxiosResponseParser;
 

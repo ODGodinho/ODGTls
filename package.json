@@ -70,7 +70,8 @@
     "dependencies": {
         "@odg/axios": "*",
         "@odg/exception": "*",
-        "@odg/message": "*"
+        "@odg/message": "*",
+        "axios": "*"
     },
     "peerDependencies": {
         "@odg/axios": "*",

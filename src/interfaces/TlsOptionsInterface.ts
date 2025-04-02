@@ -22,5 +22,5 @@ export interface TlsOptionsConstructorInterface<
 }
 
 export interface TlsAxiosRequestConfigExtra<RequestData> extends AxiosRequestConfigExtra<RequestData> {
-    tlsOptions: RequestInterface<unknown>["extras"];
+    $tlsOptions: RequestInterface<unknown>["extras"];
 }
