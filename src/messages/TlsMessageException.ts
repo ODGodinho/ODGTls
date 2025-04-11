@@ -1,9 +1,11 @@
-import { Exception } from "@odg/exception";
-import { type ResponseInterface } from "@odg/message";
+import { MessageUnknownException, type ResponseInterface } from "@odg/message";
 
 import { type TlsRequestInterface } from "../interfaces/TlsOptionsInterface";
 
-export class TlsMessageException<RequestData, ResponseData = unknown> extends Exception {
+export class TlsMessageException<
+    RequestData,
+    ResponseData = unknown,
+> extends MessageUnknownException<RequestData, ResponseData> {
 
     public constructor(
         public message: string,
