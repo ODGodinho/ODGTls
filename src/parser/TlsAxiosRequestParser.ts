@@ -1,3 +1,5 @@
+import querystring from "node:querystring";
+
 import { AxiosRequestParser } from "@odg/axios";
 import { type ProxyConfigInterface } from "@odg/message";
 import { type AxiosRequestConfig } from "axios";
@@ -69,7 +71,17 @@ export class TlsAxiosRequestParser extends AxiosRequestParser {
     private static getUrl<RequestD = unknown>(
         options: Partial<TlsRequestInterface<RequestD>>,
     ): string {
-        return `${options.baseURL ?? ""}${options.url ?? ""}`;
+        return `${options.baseURL ?? ""}${options.url ?? ""}${this.getUrlParams(options)}`;
+    }
+
+    private static getUrlParams<RequestD = unknown>(
+        options: Partial<TlsRequestInterface<RequestD>>,
+    ): string {
+        if (!options.params) {
+            return "";
+        }
+
+        return `?${querystring.stringify(options.params as Record<string, string>)}`;
     }
 
     private static getProxyUrl(proxy: ProxyConfigInterface | false | undefined): string | undefined {

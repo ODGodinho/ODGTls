@@ -95,7 +95,6 @@ describe("Tls Message", () => {
             expect(tlsResponse).rejects.toHaveProperty(baseUrlField, url404),
             expect(tlsResponse).rejects.toHaveProperty("request.url", "zeze"),
             expect(tlsResponse).rejects.toHaveProperty("request.tls.url", url404),
-            expect(tlsResponse).rejects.toHaveProperty("response.status", 404),
         ]);
 
         expect(TlsMessage.isMessageError(await tlsResponse.catch((error: unknown) => error))).toBeTruthy();

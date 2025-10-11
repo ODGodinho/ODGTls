@@ -26,6 +26,17 @@ describe("Tls Message", () => {
         })).toBe("https://tls.browserleaks.com/json/test");
     });
 
+    test.concurrent("url with params", async () => {
+        expect(TlsAxiosRequestParser["getUrl"]({
+            ...baseOptions,
+            url: "/test",
+            params: {
+                item: "item 1",
+                item2: "result 2",
+            },
+        })).toBe("https://tls.browserleaks.com/json/test?item=item%201&item2=result%202");
+    });
+
     test.concurrent("Proxy with Url no baseUrl", async () => {
         expect(TlsAxiosRequestParser["getUrl"]({
             url: "/test",
