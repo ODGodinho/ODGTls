@@ -774,17 +774,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@odg/axios@npm:^1.11.0":
-  version: 1.11.0
-  resolution: "@odg/axios@npm:1.11.0"
+"@odg/axios@npm:^1.12.0":
+  version: 1.12.0
+  resolution: "@odg/axios@npm:1.12.0"
   dependencies:
-    "@odg/exception": "npm:*"
-    "@odg/message": "npm:*"
+    "@odg/exception": "npm:^1.8.0"
+    "@odg/message": "npm:^1.12.0"
     axios: "npm:*"
   peerDependencies:
     "@odg/exception": "*"
     "@odg/message": "*"
-  checksum: 10c0/a7ed440c4adcbe256610c16a6d2d4c5bf659ee6ea1eb52da9cf7de0724002a110af20c36e5dcef9b2dbc9767764090f06aac467b840943955f228b8f3be72b69
+  peerDependenciesMeta:
+    "@odg/exception":
+      optional: true
+    "@odg/message":
+      optional: true
+  checksum: 10c0/f4d2dea7c91a07fab1aeec00ecbab978b30157bad730c76a50a9743ec4a1b3652be8bb43ad0341dc32d539f1a0e9e87e6dbc766670610893fd0196dabf4b54fa
   languageName: node
   linkType: hard
 
@@ -868,28 +873,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@odg/exception@npm:*":
-  version: 1.7.0
-  resolution: "@odg/exception@npm:1.7.0"
-  checksum: 10c0/399c78256cfa3039bf6dd8380a0897748ac5c39f36a8ac51946c88bb854de120433c7a149ad6c88f6af6b28b7227d73387526e44e6a177bd3002d72cf1153164
-  languageName: node
-  linkType: hard
-
 "@odg/exception@npm:^1.8.0":
   version: 1.8.0
   resolution: "@odg/exception@npm:1.8.0"
   checksum: 10c0/da1ad8555727b71f4485965d56426d64e44c061909f840e09dc70bed7326d02bfa7da8f02f939add779ae994672a22c0a97f31cd6f72011e2761ff89fdd25eb9
-  languageName: node
-  linkType: hard
-
-"@odg/message@npm:*":
-  version: 1.9.0
-  resolution: "@odg/message@npm:1.9.0"
-  dependencies:
-    "@odg/exception": "npm:*"
-  peerDependencies:
-    "@odg/exception": "*"
-  checksum: 10c0/03deaad91be033c2520785b6aca18f6c1e2c8d86c7b3ff0bb06265d646d7e89cbe8914a928ae834be6282c16444edbeb3c169fc737a3f6dc494156e4d178a17a
   languageName: node
   linkType: hard
 
@@ -915,12 +902,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@odg/tls@workspace:."
   dependencies:
-    "@odg/axios": "npm:^1.11.0"
+    "@odg/axios": "npm:^1.12.0"
     "@odg/eslint-config": "npm:^3.2.12"
     "@odg/exception": "npm:^1.8.0"
     "@odg/message": "npm:^1.12.0"
     "@odg/tsconfig": "npm:^1.2.1"
-    "@types/node": "npm:>=20"
+    "@types/node": "npm:>=24"
     "@vitest/coverage-istanbul": "npm:^4.1.2"
     axios: "npm:*"
     concurrently: "npm:^9.2.1"
@@ -1190,12 +1177,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:>=20":
-  version: 22.14.0
-  resolution: "@types/node@npm:22.14.0"
+"@types/node@npm:>=24":
+  version: 25.5.0
+  resolution: "@types/node@npm:25.5.0"
   dependencies:
-    undici-types: "npm:~6.21.0"
-  checksum: 10c0/9d79f3fa1af9c2c869514f419c4a4905b34c10e12915582fd1784868ac4e74c6d306cf5eb47ef889b6750ab85a31be96618227b86739c4a3e0b1c15063f384c6
+    undici-types: "npm:~7.18.0"
+  checksum: 10c0/70c508165b6758c4f88d4f91abca526c3985eee1985503d4c2bd994dbaf588e52ac57e571160f18f117d76e963570ac82bd20e743c18987e82564312b3b62119
   languageName: node
   linkType: hard
 
@@ -6576,10 +6563,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~6.21.0":
-  version: 6.21.0
-  resolution: "undici-types@npm:6.21.0"
-  checksum: 10c0/c01ed51829b10aa72fc3ce64b747f8e74ae9b60eafa19a7b46ef624403508a54c526ffab06a14a26b3120d055e1104d7abe7c9017e83ced038ea5cf52f8d5e04
+"undici-types@npm:~7.18.0":
+  version: 7.18.2
+  resolution: "undici-types@npm:7.18.2"
+  checksum: 10c0/85a79189113a238959d7a647368e4f7c5559c3a404ebdb8fc4488145ce9426fcd82252a844a302798dfc0e37e6fb178ff481ed03bc4caf634c5757d9ef43521d
   languageName: node
   linkType: hard
 
