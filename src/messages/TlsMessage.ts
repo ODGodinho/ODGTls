@@ -1,30 +1,30 @@
 import { AxiosMessage } from "@odg/axios";
-import {
-    type InterceptorsInterface,
-    type ProxyConfigInterface,
+import type {
+    InterceptorsInterface,
+    ProxyConfigInterface,
 } from "@odg/message";
-import {
-    type AxiosInterceptorManager,
-    type AxiosRequestConfig,
+import type {
+    AxiosInterceptorManager,
+    AxiosRequestConfig,
 } from "axios";
 
 import { TlsAxiosInterceptorRequest } from "../interceptors/TlsAxiosInterceptorRequest";
 import { TlsAxiosInterceptorResponse } from "../interceptors/TlsAxiosInterceptorResponse";
-import {
-    type TlsOptionsConstructorInterface,
-    type TlsRequestInterface,
+import type {
+    TlsOptionsConstructorInterface,
+    TlsRequestInterface,
 } from "../interfaces/TlsOptionsInterface";
 import { TlsAxiosRequestParser } from "../parser/TlsAxiosRequestParser";
 import { TlsAxiosResponseParser } from "../parser/TlsAxiosResponseParser";
 
-import { type TlsMessageException } from "./TlsMessageException";
-import { type TlsMessageResponse } from "./TlsMessageResponse";
+import type { TlsMessageException } from "./TlsMessageException";
+import type { TlsMessageResponse } from "./TlsMessageResponse";
 
 /**
  * Tls Message class
  *
- * @template {any} RequestData Data of request
- * @template {any} ResponseData Data of response
+ * @template {any} RequestData Request body to send in the request
+ * @template {any} ResponseData Response body of the request
  */
 export class TlsMessage<RequestData, ResponseData> extends AxiosMessage<RequestData, ResponseData> {
 

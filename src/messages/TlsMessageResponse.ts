@@ -1,6 +1,6 @@
-import { type ResponseInterface, MessageResponse } from "@odg/message";
+import { MessageResponse, type ResponseInterface } from "@odg/message";
 
-import { type TlsRequestInterface } from "../interfaces/TlsOptionsInterface";
+import type { TlsRequestInterface } from "../interfaces/TlsOptionsInterface";
 
 export class TlsMessageResponse<
     RequestData = unknown,

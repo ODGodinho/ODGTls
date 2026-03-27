@@ -1,10 +1,10 @@
 import querystring from "node:querystring";
 
 import { AxiosRequestParser } from "@odg/axios";
-import { type ProxyConfigInterface } from "@odg/message";
-import { type AxiosRequestConfig } from "axios";
+import type { ProxyConfigInterface } from "@odg/message";
+import type { AxiosRequestConfig } from "axios";
 
-import { type TlsAxiosRequestConfigExtra, type TlsRequestInterface } from "../interfaces/TlsOptionsInterface";
+import type { TlsAxiosRequestConfigExtra, TlsRequestInterface } from "../interfaces/TlsOptionsInterface";
 
 export class TlsAxiosRequestParser extends AxiosRequestParser {
 
@@ -57,13 +57,11 @@ export class TlsAxiosRequestParser extends AxiosRequestParser {
                 baseURL: config.$tlsOptions?.baseUrl,
                 proxy: config.$tlsOptions?.proxy,
                 tls: config.$tlsOptions?.tls,
-                headers: {
-                    ...config.headers,
-                    "poptls-url": undefined,
-                    "poptls-proxy": undefined,
-                    "poptls-allowredirect": undefined,
-                    "poptls-timeout": undefined,
-                },
+                headers: Object.fromEntries(
+                    Object.entries(config.headers ?? {})
+                        // eslint-disable-next-line sonarjs/null-dereference
+                        .filter(([ headerName ]) => !headerName.toLowerCase().startsWith("poptls-")),
+                ),
             } as TlsRequestInterface<RequestD>).filter(([ , value ]) => value !== undefined),
         ) as TlsRequestInterface<RequestD>;
     }
@@ -88,6 +86,7 @@ export class TlsAxiosRequestParser extends AxiosRequestParser {
         if (!proxy) return;
 
         const proxyPort = proxy.port ? `:${proxy.port}` : "";
+
         if (proxy.auth?.username) {
             return `${proxy.protocol}://${proxy.auth.username}:${proxy.auth.password}@${proxy.host}${proxyPort}`;
         }
@@ -108,9 +107,10 @@ export class TlsAxiosRequestParser extends AxiosRequestParser {
 
         if (typeof timeout === "number") {
             const miliSecondsToSeconds = 1000;
+            // eslint-disable-next-line sonarjs/non-number-in-arithmetic-expression
             const newTimeout = Math.trunc(timeout / miliSecondsToSeconds);
 
-            return newTimeout > 0 ? newTimeout : 0;
+            return Math.max(newTimeout, 0);
         }
 
         return undefined;

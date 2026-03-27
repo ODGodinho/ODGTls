@@ -1,11 +1,11 @@
 import { Exception, UnknownException } from "@odg/exception";
 import { MessageException } from "@odg/message";
-import { type InternalAxiosRequestConfig, AxiosError, AxiosHeaders } from "axios";
+import { AxiosError, AxiosHeaders, type InternalAxiosRequestConfig } from "axios";
 
 import { TlsMessage, TlsMessageException } from "src";
 
 describe("Tls Message", () => {
-    const tlsHeader = "status";
+    const tlsHeader = "response.status";
     const tlsUrl = "https://1.1.1.2/";
     const cloudFlareIp = "https://1.1.1.1";
     const baseUrlField = "request.baseURL";
@@ -126,12 +126,13 @@ describe("Tls Message", () => {
 
     test.concurrent("Teste Exception parse default", () => {
         const exception = Exception.parse("test");
+
         expect(exception).toBeInstanceOf(UnknownException);
         expect(exception?.name).toEqual(UnknownException.name);
     });
 
     test.concurrent("Response without config", async () => {
-        const config = { url: "", headers: new AxiosHeaders({}), $tlsOptions: {}};
+        const config = { url: "", headers: new AxiosHeaders({}), $tlsOptions: {} };
         const exception = Exception.parse(new AxiosError(
             "test",
             "TEST",
@@ -145,6 +146,7 @@ describe("Tls Message", () => {
                 config: undefined as unknown as InternalAxiosRequestConfig<unknown>,
             },
         ));
+
         expect(exception).toBeInstanceOf(TlsMessageException);
 
         const exception2 = Exception.parse(new AxiosError(
@@ -154,6 +156,7 @@ describe("Tls Message", () => {
             undefined,
             undefined,
         ));
+
         expect(exception2).toBeInstanceOf(TlsMessageException);
     });
 
@@ -165,6 +168,7 @@ describe("Tls Message", () => {
             undefined,
             undefined,
         ));
+
         expect(exception2?.name).toBe(MessageException.name);
     });
 });

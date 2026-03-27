@@ -1,7 +1,7 @@
 import { AxiosInterceptorResponse } from "@odg/axios";
-import {
-    type MessageResponse,
-    type InterceptorManager,
+import type {
+    InterceptorManager,
+    MessageResponse,
 } from "@odg/message";
 
 import { TlsAxiosResponseParser } from "../parser/TlsAxiosResponseParser";

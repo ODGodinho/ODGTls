@@ -1,11 +1,12 @@
-import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
 
 const coverage100 = 100;
 
 const vite = defineConfig({
+    resolve: {
+        tsconfigPaths: true,
+    },
     test: {
-        testTimeout: 15_000,
         globals: true,
         coverage: {
             enabled: true,
@@ -16,16 +17,16 @@ const vite = defineConfig({
                 lines: [ coverage100, coverage100 ],
                 statements: [ coverage100, coverage100 ],
             },
+            thresholds: {
+                "100": true,
+            },
             exclude: [
                 "src/index.ts",
                 "src/index.js",
             ],
         },
-        setupFiles: [
-            "./tests/vitest/init.ts",
-        ],
+        setupFiles: [ "./tests/vitest/init.ts" ],
     },
-    plugins: [ tsconfigPaths() ],
 });
 
 export default vite;

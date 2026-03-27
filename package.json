@@ -10,8 +10,8 @@
         "build:watch": "npm run build && (concurrently \"tsc --project ./tsconfig.build.json -w\" \"tsc-alias -p tsconfig.build.json -w\")",
         "dev": "tsx ./src/index.ts",
         "start": "node ./dist/index.js",
-        "lint": "eslint --ext .js,.jsx,.ts,.tsx,.json,.jsonc,.json5,.yml,.yaml,.xml,.txt,.svg,.properties,.gradle,.java,.cpp,.c,.cs,.html,.css,.groovy,.gitignore,.npmignore,.toml,.env,.example,.sample,.ini,.php,.bat,.powershell,.ps1,.sh,.bash,.eslintrc",
-        "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx,.json,.jsonc,.json5,.yml,.yaml,.xml,.txt,.svg,.properties,.gradle,.java,.cpp,.c,.cs,.html,.css,.groovy,.gitignore,.npmignore,.toml,.env,.example,.sample,.ini,.php,.bat,.powershell,.ps1,.sh,.bash,.eslintrc --fix",
+        "lint": "odg-lint",
+        "lint:fix": "odg-lint --fix",
         "prepare": "husky",
         "test": "vitest run",
         "test:ci": "vitest run --passWithNoTests",
@@ -53,24 +53,24 @@
     "author": "Dragons Gamers <https://www.linkedin.com/in/victor-alves-odgodinho>",
     "license": "MIT",
     "devDependencies": {
-        "@odg/eslint-config": "*",
-        "@odg/tsconfig": "*",
+        "@odg/eslint-config": "^3.2.12",
+        "@odg/tsconfig": "^1.2.1",
         "@types/node": ">=20",
-        "@vitest/coverage-istanbul": "^1",
-        "concurrently": "^9.1.2",
+        "@vitest/coverage-istanbul": "^4.1.2",
+        "concurrently": "^9.2.1",
         "husky": "^9.1.7",
-        "lint-staged": "^15.5.0",
+        "lint-staged": "^16.4.0",
         "rimraf": "*",
-        "tsc-alias": "^1.8.11",
-        "tsx": "^4.19.3",
-        "typescript": "^5.8.2",
-        "vite-tsconfig-paths": "^4",
-        "vitest": "^1.0.1"
+        "tsc-alias": "^1.8.16",
+        "tsx": "^4.21.0",
+        "typescript": "^5.9.3",
+        "vite-tsconfig-paths": "^6.1.1",
+        "vitest": "^4.1.2"
     },
     "dependencies": {
-        "@odg/axios": "*",
-        "@odg/exception": "*",
-        "@odg/message": "*",
+        "@odg/axios": "^1.11.0",
+        "@odg/exception": "^1.8.0",
+        "@odg/message": "^1.12.0",
         "axios": "*"
     },
     "peerDependencies": {
@@ -78,5 +78,6 @@
         "@odg/exception": "*",
         "@odg/message": "*",
         "axios": "*"
-    }
+    },
+    "packageManager": "yarn@4.13.0"
 }

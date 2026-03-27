@@ -1,5 +1,5 @@
 import { AxiosResponseParser } from "@odg/axios";
-import { type AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
 import { TlsMessageResponse } from "../messages/TlsMessageResponse";
 

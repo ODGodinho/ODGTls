@@ -1,7 +1,7 @@
 import { Exception } from "@odg/exception";
 import axios from "axios";
 
-import { type TlsAxiosRequestConfigExtra } from "./interfaces/TlsOptionsInterface";
+import type { TlsAxiosRequestConfigExtra } from "./interfaces/TlsOptionsInterface";
 import { TlsMessage } from "./messages/TlsMessage";
 import { TlsMessageException } from "./messages/TlsMessageException";
 import { TlsAxiosRequestParser } from "./parser/TlsAxiosRequestParser";
@@ -28,6 +28,7 @@ Exception.$parsers.add((exception, original) => {
             response?.request ?? request,
             response?.response,
         );
+
         newException.stack = exception.stack;
 
         Object.defineProperty(newException, "isAxiosError", {

@@ -31,10 +31,10 @@ describe("Tls Message", () => {
             ...baseOptions,
             url: "/test",
             params: {
-                item: "item 1",
-                item2: "result 2",
+                key1: "item 1",
+                key2: "result 2",
             },
-        })).toBe("https://tls.browserleaks.com/json/test?item=item%201&item2=result%202");
+        })).toBe("https://tls.browserleaks.com/json/test?key1=item%201&key2=result%202");
     });
 
     test.concurrent("Proxy with Url no baseUrl", async () => {

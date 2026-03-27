@@ -1,5 +1,5 @@
-import { type AxiosRequestConfigExtra } from "@odg/axios/dist/interfaces";
-import { type RequestOptionsParametersInterface, type RequestInterface } from "@odg/message";
+import type { AxiosRequestConfigExtra } from "@odg/axios/dist/interfaces";
+import type { RequestInterface, RequestOptionsParametersInterface } from "@odg/message";
 
 export interface TlsRequestInterface<
     RequestData,

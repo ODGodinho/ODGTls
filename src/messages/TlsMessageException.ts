@@ -1,6 +1,6 @@
 import { MessageUnknownException, type ResponseInterface } from "@odg/message";
 
-import { type TlsRequestInterface } from "../interfaces/TlsOptionsInterface";
+import type { TlsRequestInterface } from "../interfaces/TlsOptionsInterface";
 
 export class TlsMessageException<
     RequestData,

@@ -3,6 +3,7 @@ import { TlsAxiosRequestParser } from "src/parser/TlsAxiosRequestParser";
 
 describe("Tls Allow Redirect", () => {
     const tlsUrl = "http://localhost:8082";
+
     test.concurrent("Allow Redirect default false", async () => {
         const messageTls = new TlsMessage({
             tls: {
@@ -10,6 +11,7 @@ describe("Tls Allow Redirect", () => {
                 allowRedirect: false,
             },
         });
+
         expect(TlsAxiosRequestParser["getAllowRedirect"](await messageTls["getNewOptions"]({}))).toBe(false);
     });
 
@@ -20,6 +22,7 @@ describe("Tls Allow Redirect", () => {
                 allowRedirect: false,
             },
         });
+
         expect(TlsAxiosRequestParser["getAllowRedirect"](await messageTls["getNewOptions"]({
             tls: { allowRedirect: true },
         }))).toBe(true);
@@ -32,6 +35,7 @@ describe("Tls Allow Redirect", () => {
                 allowRedirect: undefined,
             },
         });
+
         expect(TlsAxiosRequestParser["getAllowRedirect"](await messageTls["getNewOptions"]({
             tls: { allowRedirect: undefined },
         }))).toBe(true);
